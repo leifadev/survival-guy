@@ -9,8 +9,6 @@ This bot is open-sourced for fun and is in the discord server for vanilla how's 
 - Some improvements
 
 ## Help
-You can go to the bots [wiki](https://github.com/leifadev/survival-guy/wiki) to learn everything about the bot and how to use it
-    
-
+You can go to the bots [wiki](https://github.com/leifadev/survival-guy/wiki) to learn everything about the bot and how to use it.
  
-*Contact `vanillahow#1831` for any questions, suggestions, or concerns*
+You can contact `vanillahow#1831` for any questions, suggestions, or concerns.
