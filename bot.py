@@ -24,6 +24,16 @@ async def on_ready():
 
 
 @bot.event
+async def on_message(message):
+    if commands.has_role("Member"):
+        if message.startswith.content("!signup"):
+            pass
+        else:
+            message.channel.purge(limit=1)
+            await message.author.send("You can only signup in advance right now!\nThe discord will be open once the survival starts.")
+
+
+@bot.event
 async def on_member_join(member):
     role = get(member.guild.roles, name='Member')
     await member.add_roles(role)
