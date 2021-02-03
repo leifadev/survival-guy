@@ -171,6 +171,7 @@ async def signup(ctx, username):
 async def regclear(ctx):
     regPlayers.clear()
 
+# Hey!
 
 print("Startup successful!")
 
