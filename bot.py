@@ -173,7 +173,7 @@ async def signup(ctx, username):
 @bot.command()
 @commands.has_role("Admin")
 async def listplayers(ctx):
-    ctx.channel.purge(limit=1)
+    await ctx.channel.purge(limit=1)
     for el in regPlayers:
         await ctx.author.send("**Registered Players:**")
         await ctx.author.send(el)
@@ -182,7 +182,7 @@ async def listplayers(ctx):
 @bot.command()
 @commands.has_role("Admin")
 async def regclear(ctx):
-    ctx.channel.purge(limit=1)
+    await ctx.channel.purge(limit=1)
     regPlayers.clear()
 
 # Hey!
