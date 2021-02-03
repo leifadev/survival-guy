@@ -148,6 +148,7 @@ regPlayers = []
 
 @bot.command()
 async def signup(ctx, username):
+    await ctx.channel.purge(limit=1)
     try:
         discordID = ctx.author.id
         if not discordID in userRecord:
@@ -172,12 +173,16 @@ async def signup(ctx, username):
 @bot.command()
 @commands.has_role("Admin")
 async def listplayers(ctx):
-    await ctx.author.send("**Registered Players:**\n" + str(regPlayers))
+    ctx.channel.purge(limit=1)
+    for el in regPlayers:
+        await ctx.author.send("**Registered Players:**")
+        await ctx.author.send(el)
 
 
 @bot.command()
 @commands.has_role("Admin")
 async def regclear(ctx):
+    ctx.channel.purge(limit=1)
     regPlayers.clear()
 
 # Hey!
