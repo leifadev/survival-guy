@@ -26,7 +26,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     if commands.has_role("Member"):
-        if message.startswith.content("!signup"):
+        if message.content.startswith("!signup"):
             pass
         else:
             message.channel.purge(limit=1)
