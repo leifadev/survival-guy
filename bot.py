@@ -130,7 +130,7 @@ async def pierre(ctx):
 
 @bot.command()
 @commands.has_role("Admin")
-async def eclear(ctx, amount):
+async def purge(ctx, amount):
     try:
         await ctx.channel.purge(limit=int(amount))
     except:
@@ -148,22 +148,31 @@ regPlayers = []
 
 @bot.command()
 async def signup(ctx, username):
-    discordID = ctx.author.id
-    if not discordID in userRecord:
-        try:
-            res = requests.get("https://playerdb.co/api/player/minecraft/" + username)
-            finalname = res.json()['data']['player']['username']
-            if username == finalname:
-                if finalname in regPlayers:
-                    await ctx.author.send("**Invalid Username!**\nThis username you provided is already registered!")
-                else:
-                    regPlayers.append(finalname)
-                    await ctx.author.send("**Congratulations!** You have registered with the name " + finalname + ", you will be added to the whitelist shortly. \nPlease contact vanillahow from the discord server for support.")
-        except:
-            await ctx.author.send("**Invalid Username!**\nThis username you provided doesn't eixist!")
-    else:
-        await ctx.author.send("You have already successfully registered __with a valid minecraft username__!\nPlease contact vanillahow from the discord server for support.")
+    try:
+        discordID = ctx.author.id
+        if not discordID in userRecord:
+            try:
+                res = requests.get("https://playerdb.co/api/player/minecraft/" + username)
+                finalname = res.json()['data']['player']['username']
+                if username == finalname:
+                    if finalname in regPlayers:
+                        await ctx.author.send("**Invalid Username!**\nThis username you provided is already registered!")
+                    else:
+                        regPlayers.append(finalname)
+                        await ctx.author.send("**Congratulations!** You have registered with the name " + finalname + ", you will be added to the whitelist shortly. \nPlease contact vanillahow from the discord server for support.")
+            except:
+                await ctx.author.send("**Invalid Username!**\nThis username you provided doesn't eixist!")
+        else:
+            await ctx.author.send("You have already successfully registered __with a valid minecraft username__!\nPlease contact vanillahow from the discord server for support.")
+    except:
+        await ctx.author.send("Invalid arguments! `!signup <Minecraft Username>`")
+
     print(regPlayers)
+
+@bot.command()
+@commands.has_role("Admin")
+async def listplayers(ctx):
+    await ctx.author.send("**Registered Players:**\n" + str(regPlayers))
 
 
 @bot.command()
