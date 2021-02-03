@@ -25,7 +25,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if commands.has_role("Member"):
+    if message.channel.id == 804787146686464000:
         if message.content.startswith("!signup"):
             pass
         else:
