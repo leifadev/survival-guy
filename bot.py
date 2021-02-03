@@ -4,6 +4,7 @@ import discord.ext
 from discord.ext import commands
 from discord.utils import get
 import time
+import requests
 
 intents = discord.Intents.all()
 initial_extensions = ['cogs.cogs']
@@ -95,6 +96,7 @@ async def sourcecode(ctx):
 ## VOICE STUFF
 
 @bot.command()
+@commands.cooldown(1, 20, commands.BucketType.user)
 async def calmdown(ctx):
     try:
         channel = ctx.message.author.voice.channel
@@ -102,7 +104,7 @@ async def calmdown(ctx):
         voice = get(bot.voice_clients)
         voice.play(discord.FFmpegPCMAudio('sounds/calmdownjamal.wav'))
         voice.source = discord.PCMVolumeTransformer(voice.source)
-        voice.source.volume = 30.0
+        voice.source.volume = 20.0
         time.sleep(4.5)
         await voice.disconnect()
     except:
@@ -110,6 +112,7 @@ async def calmdown(ctx):
 
 
 @bot.command()
+@commands.cooldown(1, 20, commands.BucketType.user)
 async def pierre(ctx):
     try:
         channel = ctx.message.author.voice.channel
@@ -117,11 +120,57 @@ async def pierre(ctx):
         voice = get(bot.voice_clients)
         voice.play(discord.FFmpegPCMAudio('sounds/pierre.wav'))
         voice.source = discord.PCMVolumeTransformer(voice.source)
-        voice.source.volume = 20.0
+        voice.source.volume = 10.0
         time.sleep(4.5)
         await voice.disconnect()
     except:
         await ctx.author.send("You have to be in a voice channel to use this!")
+        await ctx.channel.purge(limit=1)
+
+
+@bot.command()
+@commands.has_role("Admin")
+async def eclear(ctx, amount):
+    try:
+        await ctx.channel.purge(limit=int(amount))
+    except:
+        await ctx.channel.send("Please specify a valid number!")
+
+
+@bot.command()
+async def hawaii(ctx):
+    await ctx.channel.purge(limit=1)
+    await ctx.channel.send(file=discord.File('pics/hawaii.jpeg'))
+
+regPlayers = []
+
+@bot.command()
+async def signup(ctx, username):
+    await ctx.channel.purge(limit=1)
+    discordID = ctx.author.id
+    discordID.count += 1
+    if discordID.count > 1:
+        try:
+            res = requests.get("https://playerdb.co/api/player/minecraft/" + username)
+            finalname = res.json()['data']['player']['username']
+            await ctx.author.send("Player: " + finalname)
+            if username == finalname:
+                print("Minecraft player " + finalname + " successfully registered!")
+                ctx.author.send("**Congratulations!** You have registered with the name " + finalname + ", you will be added to the whitelist shortly. \nPlease contact vanillahow from the discord server for support.")
+                for x in regPlayers:
+                    if x == finalname:
+                        pass
+                    else:
+                        regPlayers.append(finalname)
+        except:
+            discordID.count = 0
+            await ctx.author.send("**Invalid Username!**\nThis username you provided hasn't been registered")
+    else:
+        ctx.author.send("You have already successfully registered __with a valid minecraft username__!\nPlease contact vanillahow from the discord server for support.")
+
+    print(discordID.count)
+    print(regPlayers)
+
 
 
 print("Startup successful!")
