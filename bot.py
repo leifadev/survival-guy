@@ -170,7 +170,7 @@ async def signup(ctx, username):
 
     print(discordID.count)
     print(regPlayers)
-
+    print("cool")
 
 
 print("Startup successful!")
