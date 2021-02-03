@@ -29,7 +29,7 @@ async def on_message(message):
         if message.content.startswith("!signup"):
             pass
         else:
-            message.channel.purge(limit=1)
+            await message.channel.purge(limit=1)
             await message.author.send("You can only signup in advance right now!\nThe discord will be open once the survival starts.")
 
 
