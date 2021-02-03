@@ -142,34 +142,34 @@ async def hawaii(ctx):
     await ctx.channel.purge(limit=1)
     await ctx.channel.send(file=discord.File('pics/hawaii.jpeg'))
 
+
+userRecord = []
 regPlayers = []
 
 @bot.command()
 async def signup(ctx, username):
-    await ctx.channel.purge(limit=1)
     discordID = ctx.author.id
-    discordID.count += 1
-    if discordID.count > 1:
+    if not discordID in userRecord:
         try:
             res = requests.get("https://playerdb.co/api/player/minecraft/" + username)
             finalname = res.json()['data']['player']['username']
-            await ctx.author.send("Player: " + finalname)
             if username == finalname:
-                print("Minecraft player " + finalname + " successfully registered!")
-                ctx.author.send("**Congratulations!** You have registered with the name " + finalname + ", you will be added to the whitelist shortly. \nPlease contact vanillahow from the discord server for support.")
-                for x in regPlayers:
-                    if x == finalname:
-                        pass
-                    else:
-                        regPlayers.append(finalname)
+                if finalname in regPlayers:
+                    await ctx.author.send("**Invalid Username!**\nThis username you provided is already registered!")
+                else:
+                    regPlayers.append(finalname)
+                    await ctx.author.send("**Congratulations!** You have registered with the name " + finalname + ", you will be added to the whitelist shortly. \nPlease contact vanillahow from the discord server for support.")
         except:
-            discordID.count = 0
-            await ctx.author.send("**Invalid Username!**\nThis username you provided hasn't been registered")
+            await ctx.author.send("**Invalid Username!**\nThis username you provided doesn't eixist!")
     else:
-        ctx.author.send("You have already successfully registered __with a valid minecraft username__!\nPlease contact vanillahow from the discord server for support.")
-
-    print(discordID.count)
+        await ctx.author.send("You have already successfully registered __with a valid minecraft username__!\nPlease contact vanillahow from the discord server for support.")
     print(regPlayers)
+
+
+@bot.command()
+@commands.has_role("Admin")
+async def regclear(ctx):
+    regPlayers.clear()
 
 
 print("Startup successful!")
