@@ -66,7 +66,7 @@ async def kawaii(ctx):
 @bot.command()
 async def help(ctx):
     rembed = discord.Embed(title="IP and Info", color=0x3a88fe)
-    rembed.add_field(name="The IP to the server is yugen.us.to", value="Contact admins for any other concerns",
+    rembed.add_field(name="The IP to the server is vanillahow.us.to", value="Contact admins for any other concerns",
                      inline=False)
     rembed.set_footer(text="Thank you!")
     await ctx.channel.purge(limit=1)
